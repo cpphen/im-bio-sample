@@ -12,3 +12,4 @@
 
 - As an alternative method, in separate terminal windows, first run the command `npx react-native start`
 - Once server is started with `npx react-native start` run command `npx react-native run-android` in a separate terminal 
+
