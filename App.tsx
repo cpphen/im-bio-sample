@@ -1,11 +1,3 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- */
-
-import { NewAppScreen } from '@react-native/new-app-screen';
 import { StatusBar, StyleSheet, useColorScheme, Text, View } from 'react-native';
 import {
   SafeAreaProvider,
@@ -29,7 +21,7 @@ function AppContent() {
   return (
     <View style={styles.container}>
       <View>
-        <Text>
+        <Text style={{padding: 20}}>
           Hiiiiiiiiii
         </Text>
       </View>
