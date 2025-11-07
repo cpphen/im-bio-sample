@@ -9,37 +9,26 @@ import React, {
 } from 'react'
 import { cbApi } from '../../../api'
 
-
-// data	
-//   0	
-//   id	"AED"
-//   name	"United Arab Emirates Dirham"
-//   min_size	"0.01"
-//   1	
-//   id	"AFN"
-//   name	"Afghan Afghani"
-//   min_size	"0.01"
-
 export type ICurrenciesResponse = {
   [key: string]: any
 }
 
 interface ICurrenciesContext {
-  currencies: ICurrenciesResponse[] | undefined,
+  currencies: ICurrenciesResponse | undefined,
   fetchCurrenciesDetails: () => void
 }
 
 const CurrenciesContextInterface = {
-  currencies: [],
+  currencies: {},
   fetchCurrenciesDetails: () => {}
 }
 
 export const CurrenciesContext = createContext<ICurrenciesContext>(CurrenciesContextInterface)
 
 const CurrenciesContextProvider: FC<PropsWithChildren> = ({ children }) => {
-  const [currencies, setCurrencies] = useState<ICurrenciesResponse[]>()
+  const [currencies, setCurrencies] = useState<ICurrenciesResponse>()
 
-  const getCurrecnyList = async (): Promise<ICurrenciesResponse[] | []> => {
+  const getCurrecnyList = async (): Promise<ICurrenciesResponse | {}> => {
     try {
       const response = await fetch(cbApi, {
         method: 'GET',
@@ -48,10 +37,10 @@ const CurrenciesContextProvider: FC<PropsWithChildren> = ({ children }) => {
         }
       });
       const data = await response.json();
-      return data as Promise<ICurrenciesResponse[]>;
+      return data as Promise<ICurrenciesResponse>;
     } catch (error) {
       console.error('Fetch error: getCurrecnyList():', error);
-      return [];
+      return {};
     }
   };
 

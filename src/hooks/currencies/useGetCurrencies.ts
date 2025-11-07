@@ -3,17 +3,14 @@ import { CurrenciesContext } from '../../context'
 import { ICurrenciesResponse } from '../../context/currencies/currenciesContext'
 
 const useGetCurrencies = () => {
-  const [currencies, setCurrencies] = useState<ICurrenciesResponse[]>([])
+  const [currencies, setCurrencies] = useState<ICurrenciesResponse | undefined>({})
   const currenciesContext = useContext(CurrenciesContext)
 
   console.log('hooks', currencies)
+  console.log('hooks currency context', currenciesContext?.currencies)
   useEffect(() => {
-    if (!currenciesContext?.currencies || currenciesContext?.currencies?.length == 0) {
-      currenciesContext.fetchCurrenciesDetails()
-    } else {
       setCurrencies(currenciesContext?.currencies)
-    }
-  }, [currencies, setCurrencies])
+  }, [currenciesContext?.currencies])
 
   return currencies
 }

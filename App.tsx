@@ -1,38 +1,30 @@
-import { StatusBar, StyleSheet, useColorScheme, Text, View } from 'react-native';
+import {  StyleSheet, View } from 'react-native';
 import {
   SafeAreaProvider,
-  useSafeAreaInsets,
 } from 'react-native-safe-area-context';
+import { Navigator } from './src/components'
+import {
+  CurrenciesContextProvider
+} from './src/context'
 
-function App() {
-  const isDarkMode = useColorScheme() === 'dark';
 
-  return (
-    <SafeAreaProvider>
-      <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
-      <AppContent />
-    </SafeAreaProvider>
-  );
-}
-
-function AppContent() {
-  const safeAreaInsets = useSafeAreaInsets();
-
-  return (
-    <View style={styles.container}>
-      <View>
-        <Text style={{padding: 20}}>
-          Hiiiiiiiiii
-        </Text>
-      </View>
-    </View>
-  );
-}
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
   },
 });
+
+function App() {
+  return (
+    <CurrenciesContextProvider>
+      <SafeAreaProvider>
+        <View style={styles.container}>
+          <Navigator />
+        </View>
+      </SafeAreaProvider>
+    </CurrenciesContextProvider >
+  );
+}
 
 export default App;
