@@ -1,63 +1,79 @@
-import React, { useState } from "react"
+import React, { useEffect, useState } from "react"
 import { Pressable, View } from 'react-native';
 import { Card, Text } from 'react-native-paper';
 import FontAwesome6 from '@react-native-vector-icons/fontawesome6';
+import { TCurrencyResponseItem } from "../../context/currencies/currenciesContext";
 
-const CurrencyItem: React.FC<any> = ({ currencyItem }) => {
+interface ICurrencyItemProps {
+  currencyItem: TCurrencyResponseItem;
+  favoriteCurrencies: TCurrencyResponseItem[];
+  updateFavoriteAsyncStorage: (currencyItem: TCurrencyResponseItem, favorited: boolean) => void;
+}
+
+const CurrencyItem: React.FC<ICurrencyItemProps> = ({
+  currencyItem,
+  favoriteCurrencies,
+  updateFavoriteAsyncStorage
+}) => {
   const [favorited, setFavorited] = useState<boolean>(false)
 
-  const handleItemPress = () => setFavorited(!favorited)
+  useEffect(() => {
+    const isFavorited = favoriteCurrencies.find((item) => currencyItem.id === item.id)
+    if (isFavorited) {
+      setFavorited(true)
+    }
+  }, [favoriteCurrencies])
 
-  console.log('currency item', currencyItem)
+  const handleItemPress = () => {
+    updateFavoriteAsyncStorage(currencyItem, !favorited)
+    setFavorited(!favorited)
+  }
+
   return (
     <Pressable
       onPress={handleItemPress}
-      style={{ flexBasis: '100%', flexGrow: 1 }}
+      style={{ flexBasis: '100%', flex: 1 }}
     >
       <Card
         mode="elevated"
         style={{
           flex: 1,
           flexDirection: 'row',
-          paddingLeft: 10,
-          paddingTop: 20,
-          paddingBottom: 20,
-          paddingRight: 10,
-          borderRadius: 0,
+          alignItems: 'center',
+          padding: 10,
+          borderRadius: 10,
           backgroundColor: '#FFFFFF',
-          borderColor: '#0052FF',
-          borderTopWidth: 0.7,
-          borderBottomWidth: 0.7,
           marginBottom: 2
         }}
       >
-        <View style={{flexBasis: '50%'}}>
+        <View style={{ flex: 1 }}>
           <Text
-            style={{ color: '#000000' }}
+            style={{ color: '#000000', fontSize: 15 }}
             variant="titleLarge"
           >
-            ID: {currencyItem?.id}
+            <Text style={{ fontWeight: 'bold' }}>ID:</Text> {currencyItem?.id}
           </Text>
           <Text
-            style={{ color: '#000000' }}
+            style={{ color: '#000000', fontSize: 15 }}
             variant="titleLarge"
           >
-            Name: {currencyItem?.name}
+            <Text style={{ fontWeight: 'bold' }}>Name:</Text> {currencyItem?.name}
           </Text>
           <Text
-            style={{ color: '#000000' }}
+            style={{ color: '#000000', fontSize: 15 }}
             variant="titleLarge"
           >
-            {currencyItem?.min_size}
+            <Text style={{ fontWeight: 'bold' }}>Size:</Text> {currencyItem?.min_size}
           </Text>
         </View>
-        <FontAwesome6
-          style={{flexBasis: '50%'}}
-          color={favorited ? `#FFFF00` : `#0d6efd`}
-          name={`star`}
-          size={10}
-          iconStyle={favorited ? 'solid' : 'regular'}
-        />
+        <View style={{ flex: 1, padding: 3 }}>
+          <FontAwesome6
+            color={favorited ? `#FFFF00` : `#0d6efd`}
+            name={`star`}
+            size={20}
+            iconStyle={favorited ? 'solid' : 'regular'}
+          />
+        </View>
       </Card>
     </Pressable>
   )

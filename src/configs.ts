@@ -16,6 +16,14 @@ interface IScreenPages {
   pages: ScreenPage[]
 }
 
+interface IAsyncStorageKeys {
+  favoriteCurrencies: 'favoriteCurrencies';
+}
+
+export const asyncStorageKeys: IAsyncStorageKeys = {
+  favoriteCurrencies: 'favoriteCurrencies'
+}
+
 export const screens: IScreens = {
   home: 'Home',
   currencies: 'Currencies'

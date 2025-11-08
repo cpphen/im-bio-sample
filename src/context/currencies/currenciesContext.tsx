@@ -9,7 +9,11 @@ import React, {
 } from 'react'
 import { cbApi } from '../../../api'
 
-export type ICurrenciesResponse = {
+export type TCurrencyResponseItem = {
+  [key: string]: any
+}
+
+export interface ICurrenciesResponse {
   [key: string]: any
 }
 

@@ -1,4 +1,4 @@
-import {  StyleSheet, View } from 'react-native';
+import { StatusBar, StyleSheet, View } from 'react-native';
 import {
   SafeAreaProvider,
 } from 'react-native-safe-area-context';
@@ -17,13 +17,18 @@ const styles = StyleSheet.create({
 
 function App() {
   return (
-    <CurrenciesContextProvider>
-      <SafeAreaProvider>
+    <SafeAreaProvider>
+      <CurrenciesContextProvider>
         <View style={styles.container}>
+          <StatusBar
+            backgroundColor="white"
+            barStyle="light-content"
+            animated={true}
+          />
           <Navigator />
         </View>
-      </SafeAreaProvider>
-    </CurrenciesContextProvider >
+      </CurrenciesContextProvider >
+    </SafeAreaProvider>
   );
 }
 
