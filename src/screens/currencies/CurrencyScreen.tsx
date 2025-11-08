@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react'
-import { FlatList, Text, View } from 'react-native'
+import { FlatList, Platform, Text, View } from 'react-native'
 import { Checkbox, Searchbar, Snackbar } from 'react-native-paper'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import FontAwesome6 from '@react-native-vector-icons/fontawesome6'
@@ -151,13 +151,23 @@ const CurrencyScreen: React.FC = () => {
             color='#FFFFFF'
             label='View Favorites'
             labelStyle={{ color: '#FFFFFF' }}
+            mode={Platform.OS === 'android' ? 'android' : 'ios'}
             onPress={handleViewFavorites}
             status={viewFavorites}
             style={{ flex: 1, alignSelf: 'flex-end' }}
+            uncheckedColor='#FFFFFF'
           />
         </View>
         <Searchbar
           elevation={2}
+          icon={() => null}
+          clearIcon={() => (
+            <FontAwesome6
+              name={`x`}
+              size={12}
+              iconStyle={'solid'}
+            />
+          )}
           placeholder="Search"
           onChangeText={filterCurrencyList}
           value={searchQuery}
