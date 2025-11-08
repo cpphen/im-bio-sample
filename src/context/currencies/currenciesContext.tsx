@@ -39,14 +39,14 @@ const CurrenciesContextProvider: FC<PropsWithChildren> = ({ children }) => {
         headers: {
           'Content-Type': 'application/json'
         }
-      });
-      const data = await response.json();
-      return data as Promise<ICurrenciesResponse>;
+      })
+      const data = await response.json()
+      return data as Promise<ICurrenciesResponse>
     } catch (error) {
-      console.error('Fetch error: getCurrecnyList():', error);
-      return {};
+      console.error('Fetch error: getCurrecnyList():', error)
+      return {}
     }
-  };
+  }
 
   const fetchCurrencies = async () => {
     if (!currencies || currencies.length === 0) {
