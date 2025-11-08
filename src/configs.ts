@@ -18,10 +18,12 @@ interface IScreenPages {
 
 interface IAsyncStorageKeys {
   favoriteCurrencies: 'favoriteCurrencies';
+  saveCurrencyRequestData: 'saveCurrencyRequestData';
 }
 
 export const asyncStorageKeys: IAsyncStorageKeys = {
-  favoriteCurrencies: 'favoriteCurrencies'
+  favoriteCurrencies: 'favoriteCurrencies',
+  saveCurrencyRequestData: 'saveCurrencyRequestData',
 }
 
 export const screens: IScreens = {

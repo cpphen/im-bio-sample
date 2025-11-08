@@ -4,19 +4,25 @@ import { Checkbox, Searchbar, Snackbar } from 'react-native-paper'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import FontAwesome6 from '@react-native-vector-icons/fontawesome6'
 import AsyncStorage from '@react-native-async-storage/async-storage'
+import { useNetInfo } from '@react-native-community/netinfo'
 import { CurrencyItem } from '../../components'
 import { useGetCurrencies } from '../../hooks'
 import { asyncStorageKeys } from '../../configs'
 import { TCurrencyResponseItem } from '../../context/currencies/currenciesContext'
 
 const CurrencyScreen: React.FC = () => {
+  const netinfo = useNetInfo()
   const currencies = useGetCurrencies()
   const [currencyList, setCurrencyList] = useState<TCurrencyResponseItem[]>([])
   const [noFilteredResults, setNoFilteredResults] = useState<boolean>(false)
+  const [showOfflineBar, setShowOfflineBar] = useState<boolean>(netinfo.isConnected === false)
   const [searchQuery, setSearchQuery] = useState<string>('')
   const [favoriteCurrencies, setFavoriteCurrencies] = useState<TCurrencyResponseItem[]>([])
   const [viewFavorites, setViewFavorites] = useState<"unchecked" | "checked" | "indeterminate">('unchecked')
 
+  /**
+   * Callbacks
+   */
   const getAsyncStorageFavorites = useCallback(async () => {
     const asyncFavoritedCurrencies = await AsyncStorage.getItem(asyncStorageKeys.favoriteCurrencies)
     if (asyncFavoritedCurrencies) {
@@ -24,6 +30,21 @@ const CurrencyScreen: React.FC = () => {
       setFavoriteCurrencies(parsedAsyncFavoritedCurrencies)
     }
   }, [])
+
+  const getCachedData = useCallback(async () => {
+    const cachedData = await AsyncStorage.getItem(asyncStorageKeys.saveCurrencyRequestData)
+    if (cachedData) {
+      const cList = JSON.parse(cachedData)
+      setCurrencyList(cList?.data)
+    }
+  }, [])
+  /************************************************************************************************* */
+
+  useEffect(() => {
+    if (!netinfo.isConnected) {
+      getCachedData()
+    }
+  }, [netinfo])
 
   useEffect(() => {
     getAsyncStorageFavorites()
@@ -77,6 +98,8 @@ const CurrencyScreen: React.FC = () => {
     }
   }
 
+  const dismissOfflineBar = () => setShowOfflineBar(false)
+
   return (
     <SafeAreaView style={{ flex: 1, width: "100%", backgroundColor: '#FDFFFF' }}>
       {noFilteredResults && (
@@ -92,12 +115,24 @@ const CurrencyScreen: React.FC = () => {
       />
       <Snackbar
         action={{
+          label: 'Okay',
+          onPress: () => {
+            dismissOfflineBar()
+          },
+        }}
+        style={{ flex: 1 }}
+        onDismiss={() => null}
+        visible={showOfflineBar}>
+        <Text>Currently Offline</Text>
+      </Snackbar>
+      <Snackbar
+        action={{
           label: 'Clear',
           onPress: () => {
             resetQuery()
           },
         }}
-        style={{ flex: 1 }}
+        style={{ flex: 1, opacity: 0.9, alignItems: 'center' }}
         onDismiss={() => null}
         visible={true}
       >

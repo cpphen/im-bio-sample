@@ -7,7 +7,9 @@ import React, {
   useMemo,
   useState
 } from 'react'
+import AsyncStorage from '@react-native-async-storage/async-storage'
 import { cbApi } from '../../../api'
+import { asyncStorageKeys } from '../../configs'
 
 export type TCurrencyResponseItem = {
   [key: string]: any
@@ -51,7 +53,10 @@ const CurrenciesContextProvider: FC<PropsWithChildren> = ({ children }) => {
   const fetchCurrencies = async () => {
     if (!currencies || currencies.length === 0) {
       const response = await getCurrecnyList()
-      setCurrencies(response)
+      if (response) {
+        setCurrencies(response)
+        await AsyncStorage.setItem(asyncStorageKeys.saveCurrencyRequestData, JSON.stringify(response))
+      }
     }
   }
 

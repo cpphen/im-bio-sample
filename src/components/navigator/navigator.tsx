@@ -10,22 +10,19 @@ const Navigator = () => {
     <NavigationContainer>
       <Stack.Navigator
         screenOptions={{
-          headerStyle: {
-            backgroundColor: '#262626',
-          },
           headerTintColor: '#FFFFFF',
         }}
       >
-          {
-            SCREEN_PAGES.pages.map((page, index) => (
-              <Stack.Screen
-                key={`screens-${index}`}
-                name={page.name}
-                component={page.component}
-                options={page.styles}
-              />
-            ))
-          }
+        {
+          SCREEN_PAGES.pages.map((page, index) => (
+            <Stack.Screen
+              key={`screens-${index}`}
+              name={page.name}
+              component={page.component}
+              options={page.styles}
+            />
+          ))
+        }
       </Stack.Navigator>
     </NavigationContainer>
   )

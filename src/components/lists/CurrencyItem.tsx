@@ -1,8 +1,8 @@
-import React, { useEffect, useRef, useState } from "react"
+import React, { useEffect, useRef, useState } from 'react'
 import { Animated } from 'react-native'
 import { List } from 'react-native-paper'
 import FontAwesome6 from '@react-native-vector-icons/fontawesome6'
-import { TCurrencyResponseItem } from "../../context/currencies/currenciesContext"
+import { TCurrencyResponseItem } from '../../context/currencies/currenciesContext'
 
 interface ICurrencyItemProps {
   currencyItem: TCurrencyResponseItem

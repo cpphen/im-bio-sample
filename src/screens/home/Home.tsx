@@ -1,10 +1,11 @@
-import React from 'react'
+import React, { useCallback, useEffect } from 'react'
 import { Text, View } from 'react-native'
 import { useNavigation } from '@react-navigation/native'
 import { Button } from 'react-native-paper'
 import { NativeStackNavigationProp } from '@react-navigation/native-stack'
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { screens } from '../../configs'
+import AsyncStorage from '@react-native-async-storage/async-storage'
+import { asyncStorageKeys, screens } from '../../configs'
 
 const Home: React.FC = () => {
   const navigation = useNavigation<NativeStackNavigationProp<any>>()
